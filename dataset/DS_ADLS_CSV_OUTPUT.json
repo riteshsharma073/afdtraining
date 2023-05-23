@@ -1,0 +1,22 @@
+{
+	"name": "DS_ADLS_CSV_OUTPUT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_ADSL",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileSystem": "output"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
