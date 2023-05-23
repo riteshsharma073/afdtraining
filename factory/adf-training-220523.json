@@ -1,0 +1,9 @@
+{
+	"name": "adf-training-220523",
+	"location": "southindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "f32741bb-7375-40be-94c6-f3fc0d853573",
+		"tenantId": "a97b9275-5977-429d-a1a3-1799a4d24afa"
+	}
+}
