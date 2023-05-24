@@ -5,7 +5,14 @@
 			{
 				"name": "Get Metadata File",
 				"type": "GetMetadata",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Get Metadata File_copy1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -71,6 +78,48 @@
 						"itemType",
 						"lastModified",
 						"childItems"
+					],
+					"storeSettings": {
+						"type": "AzureBlobFSReadSettings",
+						"recursive": true,
+						"enablePartitionDiscovery": false
+					},
+					"formatSettings": {
+						"type": "DelimitedTextReadSettings"
+					}
+				}
+			},
+			{
+				"name": "Get Metadata File_copy1",
+				"type": "GetMetadata",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "DelimitedText2",
+						"type": "DatasetReference",
+						"parameters": {
+							"ADLS_URL": "https://adlsadftraining2023.dfs.core.windows.net",
+							"Secret_AccessKey": "adlsadftraining2023-accesskey",
+							"ContainerName": "raw",
+							"FilePath": "samplefiles",
+							"FileName": "country.csv"
+						}
+					},
+					"fieldList": [
+						"columnCount",
+						"itemName",
+						"itemType",
+						"lastModified",
+						"size",
+						"structure"
 					],
 					"storeSettings": {
 						"type": "AzureBlobFSReadSettings",
