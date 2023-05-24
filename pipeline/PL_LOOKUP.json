@@ -17,13 +17,17 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "select top 10 * from [SalesLT].[Address]",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
 					"dataset": {
-						"referenceName": "DS_SQL_TEST",
-						"type": "DatasetReference"
+						"referenceName": "DS_SQL_GENERIC",
+						"type": "DatasetReference",
+						"parameters": {
+							"ConnectionSecret": "myadftraining220523-sqlconnection",
+							"SchemaName": "SalesLT",
+							"TableName": "Address"
+						}
 					},
 					"firstRowOnly": true
 				}
