@@ -16,8 +16,13 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataset": {
-						"referenceName": "DS_ADLS_CSV_FILE",
-						"type": "DatasetReference"
+						"referenceName": "DS_ADLS_CSV_FILE_GENERIC",
+						"type": "DatasetReference",
+						"parameters": {
+							"ContainerName": "raw",
+							"FilePath": "samplefiles",
+							"FileName": "customers-100.csv"
+						}
 					},
 					"fieldList": [
 						"columnCount",
@@ -29,6 +34,7 @@
 					],
 					"storeSettings": {
 						"type": "AzureBlobFSReadSettings",
+						"recursive": true,
 						"enablePartitionDiscovery": false
 					},
 					"formatSettings": {
@@ -68,6 +74,7 @@
 					],
 					"storeSettings": {
 						"type": "AzureBlobFSReadSettings",
+						"recursive": true,
 						"enablePartitionDiscovery": false
 					},
 					"formatSettings": {
