@@ -128,11 +128,36 @@
 									}
 								}
 							]
+						},
+						{
+							"name": "Append variable1",
+							"type": "AppendVariable",
+							"dependsOn": [
+								{
+									"activity": "Copy data from SQL TO ADLS",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "TableExtracted",
+								"value": {
+									"value": "@item().TableName",
+									"type": "Expression"
+								}
+							}
 						}
 					]
 				}
 			}
 		],
+		"variables": {
+			"TableExtracted": {
+				"type": "Array"
+			}
+		},
 		"annotations": []
 	}
 }
