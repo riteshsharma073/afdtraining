@@ -93,16 +93,6 @@
 							"RelativeURL": "api/Tourist?page={page}"
 						}
 					}
-				],
-				"outputs": [
-					{
-						"referenceName": "DS_ADLS_CSV_GENERIC",
-						"type": "DatasetReference",
-						"parameters": {
-							"FilePath": "Demo",
-							"FileName": "test.csv"
-						}
-					}
 				]
 			}
 		],
