@@ -17,7 +17,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "SELECT * FROM dbo.ImportTable WHERE IsEnabled=1",
+						"sqlReaderQuery": "SELECT top 2 *,'Test' as NewSchema FROM dbo.ImportTable WHERE IsEnabled=1",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -50,12 +50,19 @@
 						"value": "@activity('Lookup Table to be extracted').output.value",
 						"type": "Expression"
 					},
-					"isSequential": true,
+					"isSequential": false,
 					"activities": [
 						{
 							"name": "Copy data from SQL TO ADLS",
 							"type": "Copy",
-							"dependsOn": [],
+							"dependsOn": [
+								{
+									"activity": "Get Metadata1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
 							"policy": {
 								"timeout": "0.12:00:00",
 								"retry": 0,
@@ -66,20 +73,25 @@
 							"userProperties": [],
 							"typeProperties": {
 								"source": {
-									"type": "AzureSqlSource",
-									"queryTimeout": "02:00:00",
-									"partitionOption": "None"
-								},
-								"sink": {
-									"type": "DelimitedTextSink",
+									"type": "DelimitedTextSource",
 									"storeSettings": {
-										"type": "AzureBlobFSWriteSettings"
+										"type": "AzureBlobFSReadSettings",
+										"recursive": true,
+										"enablePartitionDiscovery": false
 									},
 									"formatSettings": {
-										"type": "DelimitedTextWriteSettings",
-										"quoteAllText": true,
-										"fileExtension": ".txt"
+										"type": "DelimitedTextReadSettings"
 									}
+								},
+								"sink": {
+									"type": "AzureSqlSink",
+									"preCopyScript": {
+										"value": "@{concat('Truncate table ',item().NewSchema,'.',item().TableName)}",
+										"type": "Expression"
+									},
+									"writeBehavior": "insert",
+									"sqlWriterUseTableLock": false,
+									"disableMetricsCollection": false
 								},
 								"enableStaging": false,
 								"translator": {
@@ -92,23 +104,6 @@
 								}
 							},
 							"inputs": [
-								{
-									"referenceName": "DS_SQL_GENERIC",
-									"type": "DatasetReference",
-									"parameters": {
-										"ConnectionSecret": "myadftraining220523-sqlconnection",
-										"SchemaName": {
-											"value": "@item().SchemaName",
-											"type": "Expression"
-										},
-										"TableName": {
-											"value": "@item().TableName",
-											"type": "Expression"
-										}
-									}
-								}
-							],
-							"outputs": [
 								{
 									"referenceName": "DS_ADLS_CSV_FILE_GENERIC",
 									"type": "DatasetReference",
@@ -123,6 +118,23 @@
 										},
 										"FileName": {
 											"value": "@item().FileName",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "DS_SQL_GENERIC",
+									"type": "DatasetReference",
+									"parameters": {
+										"ConnectionSecret": "myadftraining220523-sqlconnection",
+										"SchemaName": {
+											"value": "@item().NewSchema",
+											"type": "Expression"
+										},
+										"TableName": {
+											"value": "@item().TableName",
 											"type": "Expression"
 										}
 									}
@@ -146,6 +158,49 @@
 								"value": {
 									"value": "@item().TableName",
 									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Get Metadata1",
+							"type": "GetMetadata",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"dataset": {
+									"referenceName": "DS_ADLS_CSV_FILE_GENERIC",
+									"type": "DatasetReference",
+									"parameters": {
+										"ContainerName": {
+											"value": "@item().ContainerName",
+											"type": "Expression"
+										},
+										"FilePath": {
+											"value": "@item().FileFolder",
+											"type": "Expression"
+										},
+										"FileName": {
+											"value": "@item().FileName",
+											"type": "Expression"
+										}
+									}
+								},
+								"fieldList": [
+									"exists"
+								],
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
 								}
 							}
 						}
