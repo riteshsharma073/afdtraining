@@ -33,6 +33,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "TargetOther"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_ADLS_CSV_FILE_GENERIC",
+						"type": "DatasetReference"
+					},
+					"name": "CountofCategoryoutput"
 				}
 			],
 			"transformations": [
@@ -52,7 +59,8 @@
 			"scriptLines": [
 				"parameters{",
 				"     RoadBikeFileName as string ('test.csv'),",
-				"     OtherFileName as string ('test1.csv')",
+				"     OtherFileName as string ('test1.csv'),",
+				"     AggResult as string ('test2.csv')",
 				"}",
 				"source(output(",
 				"          ProductID as short,",
@@ -165,7 +173,32 @@
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     partitionBy('hash', 1)) ~> TargetOther"
+				"     partitionBy('hash', 1)) ~> TargetOther",
+				"aggregate1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          Column_1 as string,",
+				"          Column_2 as string,",
+				"          Column_3 as string,",
+				"          Column_4 as string,",
+				"          Column_5 as string,",
+				"          Column_6 as string,",
+				"          Column_7 as string,",
+				"          Column_8 as string,",
+				"          Column_9 as string,",
+				"          Column_10 as string,",
+				"          Column_11 as string,",
+				"          Column_12 as string,",
+				"          Column_13 as string,",
+				"          Column_14 as string",
+				"     ),",
+				"     partitionFileNames:[($AggResult)],",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> CountofCategoryoutput"
 			]
 		}
 	}
