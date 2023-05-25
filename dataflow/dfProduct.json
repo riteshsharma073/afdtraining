@@ -44,6 +44,9 @@
 				},
 				{
 					"name": "split1"
+				},
+				{
+					"name": "aggregate1"
 				}
 			],
 			"scriptLines": [
@@ -111,6 +114,8 @@
 				"     skipDuplicateMapOutputs: true) ~> select1",
 				"select1 split(equals(ProductCategoryName,'Road Frames'),",
 				"     disjoint: false) ~> split1@(RoadBikesProduct, OtherProduct)",
+				"select1 aggregate(groupBy(ProductCategoryName),",
+				"     NoOfProduct = count(ProductID)) ~> aggregate1",
 				"split1@RoadBikesProduct sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
