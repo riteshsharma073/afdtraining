@@ -1,0 +1,33 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "adf-training-220523"
+		},
+		"LS_SQL_connectionString": {
+			"value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=myadftraining220523.database.windows.net;Initial Catalog=dev;User ID=saadmin"
+		},
+		"LS_ADLS_GENERIC_properties_typeProperties_url": {
+			"value": "@{linkedService().ADLS_URL}"
+		},
+		"LS_ADSL_properties_typeProperties_url": {
+			"value": "https://adlsadftraining2023.dfs.core.windows.net/"
+		},
+		"LS_KEYVAULT_properties_typeProperties_baseUrl": {
+			"value": "https://kvadftrainnig.vault.azure.net/"
+		},
+		"LS_REST_properties_typeProperties_url": {
+			"value": "http://restapi.adequateshop.com"
+		},
+		"LS_SQL_GENERIC_properties_typeProperties_connectionString_secretName": {
+			"value": "@linkedService().ConnectionSecret"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
