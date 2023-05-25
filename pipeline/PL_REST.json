@@ -3,97 +3,13 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data1",
-				"type": "Copy",
+				"name": "Wait1",
+				"type": "Wait",
 				"dependsOn": [],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
 				"userProperties": [],
 				"typeProperties": {
-					"source": {
-						"type": "RestSource",
-						"httpRequestTimeout": "00:01:40",
-						"requestInterval": "00.00:00:00.010",
-						"requestMethod": "GET",
-						"paginationRules": {
-							"supportRFC5988": "true",
-							"QueryParameters.{page}": "RANGE:1:100:10"
-						}
-					},
-					"sink": {
-						"type": "DelimitedTextSink",
-						"storeSettings": {
-							"type": "AzureBlobFSWriteSettings"
-						},
-						"formatSettings": {
-							"type": "DelimitedTextWriteSettings",
-							"quoteAllText": true,
-							"fileExtension": ".txt"
-						}
-					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"mappings": [
-							{
-								"source": {
-									"path": "['id']"
-								},
-								"sink": {
-									"name": "id"
-								}
-							},
-							{
-								"source": {
-									"path": "['tourist_name']"
-								},
-								"sink": {
-									"name": "tourist_name"
-								}
-							},
-							{
-								"source": {
-									"path": "['tourist_email']"
-								},
-								"sink": {
-									"name": "tourist_email"
-								}
-							},
-							{
-								"source": {
-									"path": "['tourist_location']"
-								},
-								"sink": {
-									"name": "tourist_location"
-								}
-							},
-							{
-								"source": {
-									"path": "['createdat']"
-								},
-								"sink": {
-									"name": "createdat"
-								}
-							}
-						],
-						"collectionReference": "$['data']",
-						"mapComplexValuesToString": false
-					}
-				},
-				"inputs": [
-					{
-						"referenceName": "LS_REST_JSON",
-						"type": "DatasetReference",
-						"parameters": {
-							"RelativeURL": "api/Tourist?page={page}"
-						}
-					}
-				]
+					"waitTimeInSeconds": 1
+				}
 			}
 		],
 		"annotations": []
