@@ -48,8 +48,8 @@
 			],
 			"scriptLines": [
 				"parameters{",
-				"     RoadBikeFileName as string,",
-				"     OtherFileName as string",
+				"     RoadBikeFileName as string ('test.csv'),",
+				"     OtherFileName as string ('test1.csv')",
 				"}",
 				"source(output(",
 				"          ProductID as short,",
