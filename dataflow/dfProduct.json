@@ -37,6 +37,9 @@
 				}
 			],
 			"scriptLines": [
+				"parameters{",
+				"     TestParameter as string",
+				"}",
 				"source(output(",
 				"          ProductID as short,",
 				"          Name as string,",
