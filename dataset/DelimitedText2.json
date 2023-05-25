@@ -1,0 +1,60 @@
+{
+	"name": "DelimitedText2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_ADLS_GENERIC",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"ADLS_URL": {
+					"value": "@dataset().ADLS_URL",
+					"type": "Expression"
+				},
+				"Secret_AccessKey": {
+					"value": "@dataset().Secret_AccessKey",
+					"type": "Expression"
+				}
+			}
+		},
+		"parameters": {
+			"ADLS_URL": {
+				"type": "string"
+			},
+			"Secret_AccessKey": {
+				"type": "string"
+			},
+			"ContainerName": {
+				"type": "string"
+			},
+			"FilePath": {
+				"type": "string"
+			},
+			"FileName": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().FileName",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@dataset().FilePath",
+					"type": "Expression"
+				},
+				"fileSystem": {
+					"value": "@dataset().ContainerName",
+					"type": "Expression"
+				}
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}

@@ -1,0 +1,31 @@
+{
+	"name": "LS_ADLS_GENERIC",
+	"properties": {
+		"parameters": {
+			"ADLS_URL": {
+				"type": "string",
+				"defaultValue": "https://adlsadftraining2023.dfs.core.windows.net"
+			},
+			"Secret_AccessKey": {
+				"type": "string",
+				"defaultValue": "adlsadftraining2023-accesskey"
+			}
+		},
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "@{linkedService().ADLS_URL}",
+			"accountKey": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "LS_KEYVAULT",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": {
+					"value": "@linkedService().Secret_AccessKey",
+					"type": "Expression"
+				}
+			}
+		}
+	}
+}
