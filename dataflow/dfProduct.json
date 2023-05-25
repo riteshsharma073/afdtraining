@@ -26,6 +26,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "Target"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_ADLS_CSV_FILE_GENERIC",
+						"type": "DatasetReference"
+					},
+					"name": "TargetOther"
 				}
 			],
 			"transformations": [
@@ -34,11 +41,15 @@
 				},
 				{
 					"name": "select1"
+				},
+				{
+					"name": "split1"
 				}
 			],
 			"scriptLines": [
 				"parameters{",
-				"     TestParameter as string",
+				"     RoadBikeFileName as string,",
+				"     OtherFileName as string",
 				"}",
 				"source(output(",
 				"          ProductID as short,",
@@ -98,7 +109,9 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select1",
-				"select1 sink(allowSchemaDrift: true,",
+				"select1 split(equals(ProductCategoryName,'Road Frames'),",
+				"     disjoint: false) ~> split1@(RoadBikesProduct, OtherProduct)",
+				"split1@RoadBikesProduct sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          Column_1 as string,",
@@ -116,13 +129,38 @@
 				"          Column_13 as string,",
 				"          Column_14 as string",
 				"     ),",
-				"     partitionFileNames:['CategortyOutput.csv'],",
+				"     partitionFileNames:[($RoadBikeFileName)],",
 				"     umask: 0022,",
 				"     preCommands: [],",
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     partitionBy('hash', 1)) ~> Target"
+				"     partitionBy('hash', 1)) ~> Target",
+				"split1@OtherProduct sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          Column_1 as string,",
+				"          Column_2 as string,",
+				"          Column_3 as string,",
+				"          Column_4 as string,",
+				"          Column_5 as string,",
+				"          Column_6 as string,",
+				"          Column_7 as string,",
+				"          Column_8 as string,",
+				"          Column_9 as string,",
+				"          Column_10 as string,",
+				"          Column_11 as string,",
+				"          Column_12 as string,",
+				"          Column_13 as string,",
+				"          Column_14 as string",
+				"     ),",
+				"     partitionFileNames:[($OtherFileName)],",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> TargetOther"
 			]
 		}
 	}
