@@ -106,7 +106,10 @@
 						"referenceName": "DelimitedText2",
 						"type": "DatasetReference",
 						"parameters": {
-							"ADLS_URL": "https://adlsadftraining2023.dfs.core.windows.net",
+							"ADLS_URL": {
+								"value": "@pipeline().parameters.ADLS_URL",
+								"type": "Expression"
+							},
 							"Secret_AccessKey": "adlsadftraining2023-accesskey",
 							"ContainerName": "raw",
 							"FilePath": "samplefiles",
@@ -132,6 +135,11 @@
 				}
 			}
 		],
+		"parameters": {
+			"ADLS_URL": {
+				"type": "string"
+			}
+		},
 		"annotations": []
 	}
 }
