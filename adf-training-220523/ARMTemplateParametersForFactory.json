@@ -22,6 +22,9 @@
 		},
 		"LS_SQL_GENERIC_properties_typeProperties_connectionString_secretName": {
 			"value": "@linkedService().ConnectionSecret"
+		},
+		"storageEventTrigger_properties_typeProperties_scope": {
+			"value": "/subscriptions/9525a20f-efc2-4a27-ab1d-b37252baa537/resourceGroups/adftraining2023/providers/Microsoft.Storage/storageAccounts/adlsadftraining2023"
 		}
 	}
 }

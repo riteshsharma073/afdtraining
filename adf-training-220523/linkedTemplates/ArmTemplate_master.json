@@ -32,6 +32,10 @@
 			"type": "string",
 			"defaultValue": "@linkedService().ConnectionSecret"
 		},
+		"storageEventTrigger_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/9525a20f-efc2-4a27-ab1d-b37252baa537/resourceGroups/adftraining2023/providers/Microsoft.Storage/storageAccounts/adlsadftraining2023"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -94,6 +98,9 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"storageEventTrigger_properties_typeProperties_scope": {
+						"value": "[parameters('storageEventTrigger_properties_typeProperties_scope')]"
 					}
 				}
 			},
