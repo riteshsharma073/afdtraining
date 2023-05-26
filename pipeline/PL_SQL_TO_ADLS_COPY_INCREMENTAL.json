@@ -180,7 +180,10 @@
 								"scripts": [
 									{
 										"type": "Query",
-										"text": "test"
+										"text": {
+											"value": "@concat('UPDATE [dbo].[ImportTable] SET LastExtractDate=GETDATE() WHERE TableName=''',item().TableName , '''');",
+											"type": "Expression"
+										}
 									}
 								],
 								"scriptBlockExecutionTimeout": "02:00:00"
