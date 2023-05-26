@@ -1,0 +1,58 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"linkedService": {
+						"referenceName": "LS_ADSL",
+						"type": "LinkedServiceReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "flatten1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          CustomerID as short,",
+				"          CustomerName as string,",
+				"          SalesPerson as string,",
+				"          Hobby as string,",
+				"          ModifyDate as date",
+				"     ),",
+				"     useSchema: false,",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'delimited',",
+				"     fileSystem: 'raw',",
+				"     folderPath: 'samplefiles',",
+				"     fileName: 'customer_dataflow.csv',",
+				"     columnDelimiter: ',',",
+				"     escapeChar: '\\\\',",
+				"     quoteChar: '\\\"',",
+				"     columnNamesAsHeader: true) ~> source1",
+				"source1 derive(Hobby = split(Hobby, '|')) ~> derivedColumn1",
+				"derivedColumn1 foldDown(unroll(Hobby),",
+				"     mapColumn(",
+				"          CustomerID,",
+				"          CustomerName,",
+				"          SalesPerson,",
+				"          Hobby,",
+				"          ModifyDate",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> flatten1"
+			]
+		}
+	}
+}
